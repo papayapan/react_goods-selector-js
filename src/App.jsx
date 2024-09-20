@@ -26,17 +26,23 @@ export const App = () => {
     }
   };
 
+  const resetSelectedGood = () => setSelectedItem(null);
+
+  const titleText = selectedItem
+    ? `${selectedItem} is selected`
+    : 'No goods selected';
+
   return (
     <main className="section container">
       <h1 className="title is-flex is-align-items-center">
-        {selectedItem ? `${selectedItem} is selected` : 'No goods selected'}
+        {titleText}
 
         {selectedItem && (
           <button
             data-cy="ClearButton"
             type="button"
             className="delete ml-3"
-            onClick={() => setSelectedItem(null)}
+            onClick={resetSelectedGood}
           />
         )}
       </h1>
@@ -46,20 +52,22 @@ export const App = () => {
           {goods.map(good => {
             const isSelected = selectedItem === good;
 
+            const rowClass = isSelected ? 'has-background-success-light' : '';
+
+            const buttonClass = isSelected ? 'button is-info' : 'button';
+
+            const buttonText = isSelected ? '-' : '+';
+
             return (
-              <tr
-                key={good}
-                data-cy="Good"
-                className={`${isSelected ? 'has-background-success-light' : ''}`}
-              >
+              <tr key={good} data-cy="Good" className={rowClass}>
                 <td>
                   <button
-                    data-cy={`${isSelected ? 'RemoveButton' : 'AddButton'}`}
+                    data-cy={isSelected ? 'RemoveButton' : 'AddButton'}
                     type="button"
-                    className={`button ${isSelected ? 'is-info' : ''}`}
+                    className={buttonClass}
                     onClick={() => handleItemClick(good)}
                   >
-                    {isSelected ? '-' : '+'}
+                    {buttonText}
                   </button>
                 </td>
 
